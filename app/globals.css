@@ -10,11 +10,11 @@ body,
 
 @layer base {
   :root {
-    --text: #1f0821;
-    --background: #f5def7;
-    --primary: #AFE1AF;
-    --secondary: #b4eecb;
-    --accent: #4F7942;
+    --text: hsl(151, 60%, 91%);
+    --background: hsl(0, 0%, 0%);
+    --primary: hsl(151, 59%, 54%);
+    --secondary: hsl(151, 58%, 13%);
+    --accent: hsl(151, 59%, 53%);
 
     --foreground: 222.2 84% 4.9%;
 
