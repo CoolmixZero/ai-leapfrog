@@ -16,6 +16,7 @@ export const Empty: React.FC<EmptyProps> = ({
       <div className="relative h-72 w-72">
         <Image 
           alt="Empty"
+          key={image}
           fill
           priority
           sizes="(max-width: 768px) 100vw"

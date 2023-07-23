@@ -31,6 +31,14 @@ export default function ConversationPage() {
     {
         "role": "assistant",
         "content": "The radius of the Earth is approximately 6,371 kilometers (3,959 miles)."
+    },
+    {
+        "role": "user",
+        "content": "Simple toggle button using React hooks"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure! Here's an example of a simple toggle button using React hooks:\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction ToggleButton() {\n  const [isToggled, setIsToggled] = useState(false);\n\n  const handleToggle = () => {\n    setIsToggled(!isToggled);\n  };\n\n  return (\n    <button onClick={handleToggle}>\n      {isToggled ? 'ON' : 'OFF'}\n    </button>\n  );\n}\n```\n\nIn this example, we use the `useState` hook to create a state variable `isToggled` and a function `setIsToggled` to update the state. The initial state is set to `false`.\n\nWhen the button is clicked, the `handleToggle` function is called, which updates the value of `isToggled` to the opposite of its current value using the \"not\" operator `!`. \n\nFinally, the text on the button is dynamically rendered based on the value of `isToggled`."
     }
 ]);
 
@@ -68,7 +76,7 @@ export default function ConversationPage() {
     <div>
       <Heading
         title="AI Conversation"
-        description="Our most advanced AI conversation model"
+        description="Advanced conversation model"
         icon={MessageSquare}
         iconColor="text-sky-500"
         bgColor="bg-sky-500/10"
@@ -78,7 +86,7 @@ export default function ConversationPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="rounded-lg border border-white/5 w-full p-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
+              className="rounded-lg border w-full p-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
             >
               <FormField
                 name="prompt"
@@ -86,6 +94,7 @@ export default function ConversationPage() {
                   <FormItem className="col-span-12 lg:col-span-10">
                     <FormControl className="m-0 p-0">
                       <Input
+                        autoComplete="off"
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
                         placeholder="How do I calculate square area?"
@@ -122,7 +131,16 @@ export default function ConversationPage() {
                 className={cn("p-8 w-full flex items-start gap-x-8 rounded-lg", message.role === "user" ? "bg-gray-900/70 border-white/5" : "bg-sky-500/50")}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <ReactMarkdown>
+                <ReactMarkdown components={{
+                  pre: ({ node, ...props }) => (
+                    <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                      <pre {...props} />
+                    </div>
+                  ),
+                  code: ({ node, ...props }) => (
+                    <code className="bg-black/10 rounded-lg p-1" {...props} />
+                  )
+                }} className="text-sm overflow-hidden leading-7">
                   {message.content || ""}
                 </ReactMarkdown>
               </div>
