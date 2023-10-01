@@ -12,8 +12,8 @@ import { CrispProvider } from '@/components/crisp-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AILeapFrog',
-  description: 'SaaS AI Platform',
+  title: 'LeapFrog',
+  description: 'SaaS AI Platform, Code generation, Music, Video, Photo, Image, Nextjs',
 }
 
 export default function RootLayout({
