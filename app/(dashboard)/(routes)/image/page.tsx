@@ -19,8 +19,11 @@ import axios from "axios";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
+import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function ImagePage() {
+  const proModal = useProModal();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
 
@@ -46,8 +49,11 @@ export default function ImagePage() {
       console.log(urls)
       form.reset();
     } catch (error: any) {
-      // TODO Add Subscription Modal
-      console.log(error);
+      if(error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast.error("Something went wrong");
+      }
     } finally {
       router.refresh();
     }
@@ -75,7 +81,7 @@ export default function ImagePage() {
                     <FormControl className="m-0 p-0">
                       <Input
                         autoComplete="off"
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        className="bg-[--background] border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
                         placeholder="A picture of a pink frog"
                         {...field}

@@ -20,8 +20,11 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 import ReactMarkdown from "react-markdown";
+import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function ConversationPage() {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([
     {
@@ -66,8 +69,11 @@ export default function ConversationPage() {
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
     } catch (error: any) {
-      // TODO Add Subscription Modal
-      console.log(error);
+        if(error?.response?.status === 403) {
+          proModal.onOpen();
+        } else {
+          toast.error("Something went wrong");
+        }
     } finally {
       router.refresh();
     }
@@ -95,7 +101,7 @@ export default function ConversationPage() {
                     <FormControl className="m-0 p-0">
                       <Input
                         autoComplete="off"
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        className="bg-[--background] border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
                         placeholder="How do I calculate square area?"
                         {...field}

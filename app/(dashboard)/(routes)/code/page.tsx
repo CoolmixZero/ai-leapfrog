@@ -24,8 +24,11 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from 'remark-gfm';
 import { CopyCode } from "@/components/copy-to-clipboard";
+import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function CodePage() {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([
     {
@@ -70,8 +73,11 @@ export default function CodePage() {
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
     } catch (error: any) {
-      // TODO Add Subscription Modal
-      console.log(error);
+      if(error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+          toast.error("Something went wrong");
+      }
     } finally {
       router.refresh();
     }
@@ -105,7 +111,7 @@ export default function CodePage() {
                     <FormControl className="m-0 p-0">
                       <Input
                         autoComplete="off"
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        className="bg-[--background] border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
                         placeholder="Simple toggle button using React hooks"
                         {...field}

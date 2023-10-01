@@ -3,6 +3,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
+import { dark } from '@clerk/themes';
+import { ThemeProvider } from "@/components/theme-provider"
+import { ModalProvider } from '@/components/modal-provider'
+import { ToasterProvider } from '@/components/toaster-provider'
+import { CrispProvider } from '@/components/crisp-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +22,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider 
+    appearance={{
+      baseTheme: dark
+    }}
+    >
       <html lang="en">
-        <body className={cn("bg-[--background] text-[--text]", inter.className)}>{children}</body>
+        <CrispProvider />
+        <body className={cn("bg-[--background] text-[--text]", inter.className)}>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ModalProvider />
+            <ToasterProvider />
+            {children}
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   )
