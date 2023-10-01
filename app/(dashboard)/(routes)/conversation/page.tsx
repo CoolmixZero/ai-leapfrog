@@ -26,24 +26,7 @@ import toast from "react-hot-toast";
 export default function ConversationPage() {
   const proModal = useProModal();
   const router = useRouter();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([
-    {
-        "role": "user",
-        "content": "What is the radius of the Earth?"
-    },
-    {
-        "role": "assistant",
-        "content": "The radius of the Earth is approximately 6,371 kilometers (3,959 miles)."
-    },
-    {
-        "role": "user",
-        "content": "Simple toggle button using React hooks"
-    },
-    {
-        "role": "assistant",
-        "content": "Sure! Here's an example of a simple toggle button using React hooks:\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction ToggleButton() {\n  const [isToggled, setIsToggled] = useState(false);\n\n  const handleToggle = () => {\n    setIsToggled(!isToggled);\n  };\n\n  return (\n    <button onClick={handleToggle}>\n      {isToggled ? 'ON' : 'OFF'}\n    </button>\n  );\n}\n```\n\nIn this example, we use the `useState` hook to create a state variable `isToggled` and a function `setIsToggled` to update the state. The initial state is set to `false`.\n\nWhen the button is clicked, the `handleToggle` function is called, which updates the value of `isToggled` to the opposite of its current value using the \"not\" operator `!`. \n\nFinally, the text on the button is dynamically rendered based on the value of `isToggled`."
-    }
-]);
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
